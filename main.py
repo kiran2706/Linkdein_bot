@@ -34,6 +34,9 @@ class EasyApplyLinkedin:
         login_pass.clear()
         login_pass.send_keys(self.password)
         login_pass.send_keys(Keys.RETURN)
+        # login_not_now = self.driver.find_element_by_class_name('remember-me-prompt__form')
+        # login_not_now.click()
+
     
     def job_search(self):
         """This function goes to the 'Jobs' section a looks for all the jobs that matches the keywords and location"""
@@ -41,24 +44,27 @@ class EasyApplyLinkedin:
         # go to Jobs
         jobs_link = self.driver.find_element_by_link_text('Jobs')
         jobs_link.click()
+        time.sleep(1)
 
         # search based on keywords and location and hit enter
-        search_keywords = self.driver.find_element_by_css_selector(".jobs-search-box__text-input[aria-label='Search jobs']")
+        search_keywords = self.driver.find_element_by_xpath("//input[starts-with(@id,'jobs-search-box-keyword')]")
         search_keywords.clear()
         search_keywords.send_keys(self.keywords)
-        search_location = self.driver.find_element_by_css_selector(".jobs-search-box__text-input[aria-label='Search location']")
+        time.sleep(1)
+        search_location = self.driver.find_element_by_xpath("//input[starts-with(@id,'jobs-search-box-location')]")
         search_location.clear()
         search_location.send_keys(self.location)
+        time.sleep(2)
         search_location.send_keys(Keys.RETURN)
 
     def filter(self):
         """This function filters all the job results by 'Easy Apply'"""
 
         # select all filters, click on Easy Apply and apply the filter
-        all_filters_button = self.driver.find_element_by_xpath("//button[@data-control-name='all_filters']")
+        all_filters_button = self.driver.find_element_by_xpath("//button[@aria-label='All filters']")
         all_filters_button.click()
         time.sleep(1)
-        easy_apply_button = self.driver.find_element_by_xpath("//label[@for='f_LF-f_AL']")
+        easy_apply_button = self.driver.find_element_by_xpath("//button[@for='adToggle_ember1331']")
         easy_apply_button.click()
         time.sleep(1)
         apply_filter_button = self.driver.find_element_by_xpath("//button[@data-control-name='all_filters_apply']")
@@ -158,7 +164,7 @@ class EasyApplyLinkedin:
     def apply(self):
         """Apply to job offers"""
 
-        self.driver.maximize_window()
+        # self.driver.maximize_window()
         self.login_linkedin()
         time.sleep(5)
         self.job_search()
