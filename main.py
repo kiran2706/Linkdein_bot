@@ -8,7 +8,6 @@ from selenium.webdriver.common.action_chains import ActionChains
 import time
 import re
 import json
-
 class EasyApplyLinkedin:
 
     def __init__(self, data):
@@ -36,6 +35,17 @@ class EasyApplyLinkedin:
         login_pass.send_keys(Keys.RETURN)
         # login_not_now = self.driver.find_element_by_class_name('remember-me-prompt__form')
         # login_not_now.click()
+    def search_bar(self):
+        # search for link
+        search_field = self.driver.find_elements_by_id('ember22')[0]
+        search_field.click()
+        time.sleep(5)
+        see_all = self.driver.find_element_by_xpath("//button[@aria-label='See all People you may know from Machine Learning and Data Science']")
+        see_all.click()
+        lis = self.driver.find_element_by_xpath("//*[starts-with(@aria-label,'Invite'])")
+        print(lis)
+
+
 
     
     def job_search(self):
@@ -64,7 +74,8 @@ class EasyApplyLinkedin:
         all_filters_button = self.driver.find_element_by_xpath("//button[@aria-label='All filters']")
         all_filters_button.click()
         time.sleep(1)
-        easy_apply_button = self.driver.find_element_by_xpath("//button[@for='adToggle_ember1331']")
+        easy_apply_button = self.driver.find_element_by_xpath("//ul[starts-with(@class,'list')]")
+        print(easy_apply_button.click())
         easy_apply_button.click()
         time.sleep(1)
         apply_filter_button = self.driver.find_element_by_xpath("//button[@data-control-name='all_filters_apply']")
@@ -77,6 +88,7 @@ class EasyApplyLinkedin:
         total_results = self.driver.find_element_by_class_name("display-flex.t-12.t-black--light.t-normal")
         total_results_int = int(total_results.text.split(' ',1)[0].replace(",",""))
         print(total_results_int)
+
 
         time.sleep(2)
         # get results for the first page
@@ -164,16 +176,18 @@ class EasyApplyLinkedin:
     def apply(self):
         """Apply to job offers"""
 
-        # self.driver.maximize_window()
+        self.driver.maximize_window()
         self.login_linkedin()
         time.sleep(5)
-        self.job_search()
-        time.sleep(5)
-        self.filter()
-        time.sleep(2)
-        self.find_offers()
-        time.sleep(2)
-        self.close_session()
+        self.search_bar()
+        # time.sleep(5)
+        # self.job_search()
+        # time.sleep(5)
+        # self.filter()
+        # time.sleep(2)
+        # self.find_offers()
+        # time.sleep(2)
+        # self.close_session()
 
 
 if __name__ == '__main__':
